@@ -1,0 +1,24 @@
+<!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+    <session-factory>
+        <!-- Configurações da conexão com o banco de dados -->
+        <property name="hibernate.connection.driver_class">org.h2.Driver</property>
+        <property name="hibernate.connection.url">jdbc:h2:mem:test;DB_CLOSE_DELAY=-1;INIT=RUNSCRIPT FROM 'classpath:init.sql'</property>
+        <property name="hibernate.connection.username">your_username</property>
+        <property name="hibernate.connection.password">your_password</property>
+
+        <!-- Dialeto do banco de dados -->
+        <property name="hibernate.dialect">org.hibernate.dialect.H2Dialect</property>
+
+        <!-- Mostrar SQL gerado pelo Hibernate (somente para depuração) -->
+        <property name="hibernate.show_sql">true</property>
+
+        <!-- Atualizar automaticamente o esquema do banco de dados -->
+        <property name="hibernate.hbm2ddl.auto">update</property>
+
+        <!-- Mapeamento de classes -->
+        <mapping class="com.example.MenuItem"/>
+
+    </session-factory>
+</hibernate-configuration>
