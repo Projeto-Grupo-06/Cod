@@ -1,9 +1,11 @@
 package com.bitequest.BiteQuest.usuario;
 
+import com.bitequest.BiteQuest.entity.Restaurante;
 import com.bitequest.BiteQuest.entity.Usuario;
 import lombok.Data;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Data
 public class UsuarioSimpleResponse {
@@ -13,6 +15,7 @@ public class UsuarioSimpleResponse {
     private String email;
     private LocalDate dataNascimento;
     private Boolean hasDono;
+    private List<Restaurante> restaurantes; // novo campo
 
     public UsuarioSimpleResponse(Usuario usuario) {
         this.id = usuario.getId();
@@ -20,7 +23,7 @@ public class UsuarioSimpleResponse {
         this.sobrenome = usuario.getSobrenome();
         this.email = usuario.getEmail();
         this.dataNascimento = usuario.getDataNascimento();
-        this.hasDono = usuario.getHasDono();
+        this.restaurantes = usuario.getRestaurantes(); // novo campo
     }
 
     public UsuarioSimpleResponse(){

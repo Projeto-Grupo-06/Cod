@@ -1,5 +1,6 @@
 package com.bitequest.BiteQuest.dto;
 
+import com.bitequest.BiteQuest.entity.Restaurante;
 import com.bitequest.BiteQuest.entity.Usuario;
 import lombok.Getter;
 import lombok.Setter;
@@ -7,17 +8,22 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
+import java.util.List;
+
 @Getter
 @Setter
 public class UsuarioDetalhesDto implements UserDetails {
-    private  Long id;
+    private Long id;
     private final String email;
     private final String senha;
+    @Getter
+    private final List<Restaurante> restaurantes;
 
     public UsuarioDetalhesDto(Usuario usuario) {
-        this.id=usuario.getId();
+        this.id = usuario.getId();
         this.email = usuario.getEmail();
         this.senha = usuario.getSenha();
+        this.restaurantes = usuario.getRestaurantes();
     }
 
 

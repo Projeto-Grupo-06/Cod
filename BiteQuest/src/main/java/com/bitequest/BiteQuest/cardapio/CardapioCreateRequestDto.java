@@ -1,23 +1,20 @@
 package com.bitequest.BiteQuest.cardapio;
 
-import com.bitequest.BiteQuest.restaurante.RestauranteSimpleResponse;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.PositiveOrZero;
+
 import lombok.Data;
 
 @Data
 public class CardapioCreateRequestDto {
-    @NotBlank
-    private String nome;
+    @NotBlank(message = "A imagem é obrigatória")
+    private String imagem;
 
-    @PositiveOrZero
-    private Double preco;
+    // getters and setters
+    public String getImagem() {
+        return imagem;
+    }
 
-    @NotBlank
-    private String versao;
-
-    @NotNull
-    private RestauranteSimpleResponse restaurante;
-
+    public void setImagem(String imagem) {
+        this.imagem = imagem;
+    }
 }

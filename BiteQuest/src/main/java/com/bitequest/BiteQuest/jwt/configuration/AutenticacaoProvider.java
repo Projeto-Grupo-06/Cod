@@ -1,4 +1,4 @@
-package com.bitequest.BiteQuest.configuration;
+package com.bitequest.BiteQuest.jwt.configuration;
 
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;

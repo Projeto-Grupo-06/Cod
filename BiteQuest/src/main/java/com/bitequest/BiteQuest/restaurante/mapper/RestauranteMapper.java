@@ -26,6 +26,8 @@ public class RestauranteMapper {
         restaurante.setComplemento(requestDto.getComplemento());
         restaurante.setDescricao(requestDto.getDescricao()); // Adicionado
         restaurante.setTipo(requestDto.getTipo()); // Adicionado
+        restaurante.setComentario(requestDto.getComentario()); // Adicionado
+        restaurante.setHorariosDeFuncionamento(requestDto.getHorariosDeFuncionamento()); // Adicionado
         return restaurante;
     }
 
@@ -43,6 +45,8 @@ public class RestauranteMapper {
         responseDto.setComplemento(entity.getComplemento());
         responseDto.setDescricao(entity.getDescricao()); // Adicionado
         responseDto.setTipo(entity.getTipo()); // Adicionado
+        responseDto.setComentario(entity.getComentario()); // Adicionado
+        responseDto.setHorariosDeFuncionamento(entity.getHorariosDeFuncionamento()); // Adicionado
 
         // O código para mapear os cardápios foi removido para simplificar. Se necessário, adicione aqui.
 
@@ -62,8 +66,11 @@ public class RestauranteMapper {
         simpleResponse.setNumero(entity.getNumero());
         simpleResponse.setComplemento(entity.getComplemento());
         // Os campos descricao e tipo não são incluídos na resposta simples
+        simpleResponse.setComentario(entity.getComentario()); // Adicionado
+        simpleResponse.setHorariosDeFuncionamento(entity.getHorariosDeFuncionamento()); // Adicionado
 
         return simpleResponse;
     }
 }
+
 

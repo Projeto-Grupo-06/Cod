@@ -1,7 +1,6 @@
-package com.bitequest.BiteQuest;
+package com.bitequest.BiteQuest.jwt;
 
-import com.bitequest.BiteQuest.configuration.AutenticacaoService;
-import com.bitequest.BiteQuest.jwt.GerenciadorTokenJwt;
+import com.bitequest.BiteQuest.jwt.configuration.AutenticacaoService;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.MalformedJwtException;
 import jakarta.servlet.FilterChain;

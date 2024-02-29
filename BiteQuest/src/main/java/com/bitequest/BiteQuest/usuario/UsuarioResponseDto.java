@@ -1,5 +1,6 @@
 package com.bitequest.BiteQuest.usuario;
 
+import com.bitequest.BiteQuest.entity.Restaurante;
 import lombok.Data;
 
 import java.time.LocalDate;
@@ -12,6 +13,5 @@ public class UsuarioResponseDto {
     private String sobrenome;
     private LocalDate dataNascimento;
     private String email;
-    private Boolean hasDono;
-
+    private List<Restaurante> restaurantes; // novo campo
 }

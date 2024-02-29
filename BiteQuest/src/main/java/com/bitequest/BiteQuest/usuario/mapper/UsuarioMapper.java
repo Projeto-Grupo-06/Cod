@@ -24,7 +24,7 @@ public class UsuarioMapper {
         usuario.setCpf(requestDto.getCpf());
         usuario.setEmail(requestDto.getEmail());
         usuario.setSenha(requestDto.getSenha());
-        usuario.setHasDono(requestDto.getHasDono());
+        usuario.setRestaurantes(requestDto.getRestaurantes());
         return usuario;
     }
 
@@ -36,6 +36,7 @@ public class UsuarioMapper {
         usuario.setId(entity.getId());
         usuario.setNome(entity.getNome());
         usuario.setEmail(entity.getEmail());
+        usuario.setRestaurantes(entity.getRestaurantes());
         return usuario;
     }
 
@@ -47,6 +48,7 @@ public class UsuarioMapper {
         usuario.setId(entity.getId());
         usuario.setNome(entity.getNome());
         usuario.setEmail(entity.getEmail());
+        usuario.setRestaurantes(entity.getRestaurantes());
         return usuario;
     }
 
@@ -58,3 +60,4 @@ public class UsuarioMapper {
         return usuarioTokenDto;
     }
 }
+

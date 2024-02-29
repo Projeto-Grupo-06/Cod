@@ -1,4 +1,4 @@
-package com.bitequest.BiteQuest.configuration;
+package com.bitequest.BiteQuest.jwt.configuration;
 
 import com.bitequest.BiteQuest.dto.UsuarioDetalhesDto;
 import com.bitequest.BiteQuest.entity.Usuario;
@@ -42,15 +42,5 @@ public class AutenticacaoService implements UserDetailsService {
         Optional<Usuario> usuario = usuarioRepository.findById(usuarioDetailsDto.getId());
         return usuario.orElse(null);
     }
-    public void verificarDono(Usuario usuario) {
-        if (!usuario.getHasDono()) { // Supondo que getHasDono() retorne um Boolean
-            throw new NaoAutorizadoException("Não autorizado. O usuário não é um dono de estabelecimento.");
-        }
-    }
 
-    public void verificarRestaurante(Usuario usuario) {
-        if (usuario.getRestaurante() == null) {
-            throw new NaoAutorizadoException("Não autorizado. Este usuário não tem acesso a Restaurante.");
-        }
-}
 }

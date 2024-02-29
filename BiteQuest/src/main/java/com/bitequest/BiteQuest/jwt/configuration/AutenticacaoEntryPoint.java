@@ -1,4 +1,4 @@
-package com.bitequest.BiteQuest.configuration;
+package com.bitequest.BiteQuest.jwt.configuration;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

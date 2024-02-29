@@ -1,5 +1,5 @@
 package com.bitequest.BiteQuest.entity;
 
 public interface Observer {
-    void update(Cardapio cardapio);
-}
+        void update(Cardapio cardapio);
+    }

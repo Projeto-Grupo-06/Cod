@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.br.CNPJ;
 
+import java.util.Map;
+
 @Getter
 @Setter
 public class RestauranteSimpleResponse {
@@ -28,4 +30,8 @@ public class RestauranteSimpleResponse {
     private String descricao;
 
     private String tipo;
+
+    private String comentario; // Adicionado
+    private Map<String, String> horariosDeFuncionamento; // Adicionado
 }
+

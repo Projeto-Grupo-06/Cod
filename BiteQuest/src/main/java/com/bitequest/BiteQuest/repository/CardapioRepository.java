@@ -14,18 +14,9 @@ import java.util.Optional;
 public interface CardapioRepository extends JpaRepository<Cardapio, Long> {
     Optional<Cardapio> findById(Long id);
 
-    List<Cardapio> findByNomeContainsIgnoreCase(String nome);
-
-    @Modifying
-    @Transactional
-    @Query("UPDATE Cardapio c SET c.versao = :versao WHERE c.id = :id")
-    int updateCardapioVersion(Long id, String versao);
-
     @Modifying
     @Transactional
     @Query("DELETE FROM Cardapio c WHERE c.id = :id")
     void deleteById(Long id);
-
-    @Query("SELECT c.deleted FROM Cardapio c WHERE c.id = :id")
-    boolean isDeletedById(@Param("id") Long id);
 }
+

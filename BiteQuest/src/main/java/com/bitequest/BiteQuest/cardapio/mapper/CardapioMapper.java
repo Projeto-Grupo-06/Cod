@@ -9,26 +9,14 @@ import com.bitequest.BiteQuest.entity.Restaurante;
 public class CardapioMapper {
     public static Cardapio toEntity(CardapioCreateRequestDto dto) {
         Cardapio cardapio = new Cardapio();
-        cardapio.setNome(dto.getNome());
-        cardapio.setPreco(dto.getPreco());
-        cardapio.setVersao(dto.getVersao());
-
-        Restaurante restaurante = new Restaurante();
-        restaurante.setId(dto.getRestaurante().getId());
-
-        cardapio.setRestaurante(restaurante);
-
+        cardapio.setImagem(dto.getImagem());
         return cardapio;
     }
 
     public static CardapioResponseDto toCardapioReponseDto(Cardapio entity) {
         CardapioResponseDto cardapio = new CardapioResponseDto();
-
         cardapio.setId(entity.getId());
-        cardapio.setNome(entity.getNome());
-        cardapio.setPreco(entity.getPreco());
-        cardapio.setVersao(entity.getVersao());
-
+        cardapio.setImagem(entity.getImagem());
         return cardapio;
     }
 
@@ -39,10 +27,8 @@ public class CardapioMapper {
 
         CardapioSimpleResponse cardapio = new CardapioSimpleResponse();
         cardapio.setId(entity.getId());
-        cardapio.setNome(entity.getNome());
-        cardapio.setPreco(entity.getPreco());
-        cardapio.setVersao(entity.getVersao());
-
+        cardapio.setImagem(entity.getImagem());
         return cardapio;
     }
 }
+

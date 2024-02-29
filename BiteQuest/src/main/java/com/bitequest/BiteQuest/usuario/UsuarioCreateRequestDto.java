@@ -1,5 +1,6 @@
 package com.bitequest.BiteQuest.usuario;
 
+import com.bitequest.BiteQuest.entity.Restaurante;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.PastOrPresent;
@@ -7,6 +8,7 @@ import lombok.Data;
 import org.hibernate.validator.constraints.br.CPF;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Data
 public class UsuarioCreateRequestDto {
@@ -29,5 +31,6 @@ public class UsuarioCreateRequestDto {
     @NotBlank(message = "A senha é obrigatória")
     private String senha;
 
-    private Boolean hasDono;
+    private List<Restaurante> restaurantes; // novo campo
 }
+

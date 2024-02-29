@@ -22,9 +22,7 @@ public class CardapioService {
 
     public Cardapio adicionar(CardapioCreateRequestDto c) {
         Cardapio novoCardapio = new Cardapio();
-        novoCardapio.setNome(c.getNome());
-        novoCardapio.setPreco(c.getPreco());
-        novoCardapio.setVersao(c.getVersao());
+        novoCardapio.setImagem(c.getImagem());
         return cardapioRepository.save(novoCardapio);
     }
 
@@ -34,45 +32,18 @@ public class CardapioService {
 
     public Cardapio cardapioPorId(Long id) {
         return cardapioRepository.findById(id)
-                .orElseThrow(() -> new CardapioNaoEncontradoException("Cardápio não encontrado"));
-    }
-
-    public Cardapio editar(CardapioResponseDto c, Long id) {
-        Cardapio cardapio = cardapioRepository.findById(id)
-                .orElseThrow(() -> new CardapioNaoEncontradoException("Cardápio não encontrado"));
-
-        cardapio.setNome(c.getNome());
-        cardapio.setPreco(c.getPreco());
-        cardapio.setVersao(c.getVersao());
-
-        return cardapioRepository.save(cardapio);
+                .orElseThrow(() -> new CardapioNaoEncontradoException(id));
     }
 
     public void deletarCardapio(Long id) {
         Cardapio cardapio = cardapioRepository.findById(id)
-                .orElseThrow(() -> new CardapioNaoEncontradoException("Cardápio não encontrado"));
+                .orElseThrow(() -> new CardapioNaoEncontradoException(id));
         cardapioRepository.deleteById(id);
-    }
-
-    public void cardapioDeletado(Long id) {
-        Cardapio cardapio = cardapioRepository.findById(id)
-                .orElseThrow(() -> new CardapioNaoEncontradoException("Cardápio não encontrado"));
-        if (cardapio.isDeleted()) {
-            throw new CardapioNaoEncontradoException("Cardápio já foi deletado");
-        }
-        cardapioRepository.deleteById(id);
-    }
-
-    public void atualizarVersao(Long id, String versao) {
-        Cardapio cardapio = cardapioRepository.findById(id)
-                .orElseThrow(() -> new CardapioNaoEncontradoException("Cardápio não encontrado"));
-
-        cardapio.setVersao(versao);
-        cardapioRepository.save(cardapio);
     }
 
     public Cardapio cardapioExiste(Long id) {
         return cardapioRepository.findById(id)
-                .orElseThrow(() -> new CardapioNaoEncontradoException("Cardápio não encontrado"));
+                .orElseThrow(() -> new CardapioNaoEncontradoException(id));
     }
 }
+

@@ -4,19 +4,15 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.validator.constraints.br.CNPJ;
 
 import java.util.List;
+import java.util.Map;
 
 @Entity
 @Getter
 @Setter
 public class Restaurante implements Observer {
-
-    @Override
-    public void update(Cardapio cardapio) {
-        System.out.println("O cardápio foi atualizado: " + cardapio);
-        // Aqui você pode adicionar a lógica para lidar com a atualização do cardápio
-    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,6 +21,7 @@ public class Restaurante implements Observer {
     @NotBlank(message = "O nome do restaurante é obrigatório")
     private String nome;
 
+    @CNPJ
     @NotBlank(message = "O CNPJ é obrigatório")
     private String cnpj;
 
@@ -34,12 +31,26 @@ public class Restaurante implements Observer {
     @NotBlank(message = "O endereço é obrigatório")
     private String endereco;
 
+    @NotBlank
     private String numero;
+
+    @NotBlank
     private String complemento;
+
+    @NotBlank
     private String descricao;
+
+    @NotBlank
     private String tipo;
 
-    public Restaurante(String nome, String cnpj, String cep, String endereco, String numero, String complemento, String descricao, String tipo) {
+    @NotBlank
+    private String comentario;
+
+    @ElementCollection
+    private Map<String, String> horariosDeFuncionamento;
+
+
+    public Restaurante(String nome, String cnpj, String cep, String endereco, String numero, String complemento, String descricao, String tipo, String comentario, Map<String, String> horariosDeFuncionamento) {
         this.nome = nome;
         this.cnpj = cnpj;
         this.cep = cep;
@@ -48,9 +59,11 @@ public class Restaurante implements Observer {
         this.complemento = complemento;
         this.descricao = descricao;
         this.tipo = tipo;
+        this.comentario = comentario;
+        this.horariosDeFuncionamento = horariosDeFuncionamento;
     }
 
-    public Restaurante(Integer id, String nome, String cnpj, String cep, String endereco, String numero, String complemento, String descricao, String tipo) {
+    public Restaurante(Integer id, String nome, String cnpj, String cep, String endereco, String numero, String complemento, String descricao, String tipo, String comentario, Map<String, String> horariosDeFuncionamento) {
         this.id = id;
         this.nome = nome;
         this.cnpj = cnpj;
@@ -60,16 +73,16 @@ public class Restaurante implements Observer {
         this.complemento = complemento;
         this.descricao = descricao;
         this.tipo = tipo;
+        this.comentario = comentario;
+        this.horariosDeFuncionamento = horariosDeFuncionamento;
     }
 
     public Restaurante() {
         // Construtor padrão
     }
 
-
-    @OneToMany(mappedBy = "restaurante", cascade = CascadeType.ALL)
-    private List<HorarioFuncionamento> horarios;
-
-    @OneToMany(mappedBy = "restaurante", cascade = CascadeType.ALL)
-    private List<Cardapio> cardapios;
+    @Override
+    public void update(Cardapio cardapio) {
+        System.out.println("Um novo cardápio foi criado: " + cardapio.getImagem());
+    }
 }

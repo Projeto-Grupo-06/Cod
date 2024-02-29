@@ -18,7 +18,7 @@ public class SwaggerConfiguration {
                             .addSecuritySchemes("bearer-key",
                                     new SecurityScheme().type(SecurityScheme.Type.HTTP).scheme("bearer").bearerFormat("JWT")))
                     .info(new Info()
-                            .title("Vitor API")
+                            .title("API de conexão para segurança do usuário")
                             .description("Api para conectar login e usuario")
                             .contact(new Contact()
                                     .email("Vitor.varela@sptech.school")))

@@ -7,6 +7,7 @@ import lombok.Setter;
 import org.hibernate.validator.constraints.br.CNPJ;
 
 import java.util.List;
+import java.util.Map;
 
 @Getter
 @Setter
@@ -29,7 +30,7 @@ public class RestauranteResponseDto {
     private String complemento;
     private String descricao;
     private String tipo;
-
-    // Lista de cardápios associados ao restaurante
-    private List<CardapioResponseDto> cardapios;
+    private String comentario; // Adicionado
+    private Map<String, String> horariosDeFuncionamento; // Adicionado
 }
+

@@ -1,9 +1,8 @@
-package com.bitequest.BiteQuest;
+package com.bitequest.BiteQuest.jwt;
 
-import com.bitequest.BiteQuest.configuration.AutenticacaoEntryPoint;
-import com.bitequest.BiteQuest.configuration.AutenticacaoProvider;
-import com.bitequest.BiteQuest.configuration.AutenticacaoService;
-import com.bitequest.BiteQuest.jwt.GerenciadorTokenJwt;
+import com.bitequest.BiteQuest.jwt.configuration.AutenticacaoEntryPoint;
+import com.bitequest.BiteQuest.jwt.configuration.AutenticacaoProvider;
+import com.bitequest.BiteQuest.jwt.configuration.AutenticacaoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
