@@ -23,22 +23,22 @@ public class RestauranteController {
     private Queue<RestauranteCreateRequestDto> filaAdicoes = new LinkedList<>();
 
     @GetMapping
-    public ResponseEntity<List<Restaurante>> listarRestaurantes(){
+    public ResponseEntity<List<Restaurante>> listarRestaurantes() {
         List<Restaurante> restaurantes = restauranteService.todosRestaurantes();
-        if (restaurantes.isEmpty()){
+        if (restaurantes.isEmpty()) {
             return ResponseEntity.noContent().build();
         }
         return ResponseEntity.ok(restaurantes);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Restaurante> restaurantePorId(@PathVariable Integer id){
+    public ResponseEntity<Restaurante> restaurantePorId(@PathVariable Integer id) {
         Restaurante restaurante = restauranteService.restaurantePorId(id);
         return ResponseEntity.ok(restaurante);
     }
 
     @PostMapping
-    public ResponseEntity<Restaurante> adicionarRestaurante(@Valid @RequestBody RestauranteCreateRequestDto r){
+    public ResponseEntity<Restaurante> adicionarRestaurante(@Valid @RequestBody RestauranteCreateRequestDto r) {
         // Adiciona a solicitação à fila
         filaAdicoes.add(r);
 
@@ -50,14 +50,30 @@ public class RestauranteController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Restaurante> editarRestaurante(@PathVariable Integer id, @RequestBody RestauranteSimpleResponse r){
+    public ResponseEntity<Restaurante> editarRestaurante(@PathVariable Integer id, @RequestBody RestauranteSimpleResponse r) {
         return ResponseEntity.ok(restauranteService.editar(id, r));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deletarRestaurante(@PathVariable Integer id){
+    public ResponseEntity<Void> deletarRestaurante(@PathVariable Integer id) {
         restauranteService.deletarRestaurante(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/{id}/mapa")
+    public ResponseEntity<String> abrirMapaRestaurante(@PathVariable Integer id) {
+        Restaurante restaurante = restauranteService.restaurantePorId(id);
+
+        // Obtenha o CEP do restaurante
+        String cep = restaurante.getCep();
+
+        // Substitua os espaços por '+' para formar a URL corretamente
+        cep = cep.replace(" ", "+");
+
+        // Cria a URL do Google Maps para o CEP
+        String urlMapa = "https://www.google.com/maps/search/?api=1&query=" + cep;
+
+        return ResponseEntity.ok(urlMapa);
     }
 }
 
