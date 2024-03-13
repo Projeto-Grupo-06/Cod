@@ -32,5 +32,7 @@ public class RestauranteResponseDto {
     private String tipo;
     private String comentario; // Adicionado
     private Map<String, String> horariosDeFuncionamento; // Adicionado
+
+    private List<CardapioResponseDto> cardapios;
 }
 

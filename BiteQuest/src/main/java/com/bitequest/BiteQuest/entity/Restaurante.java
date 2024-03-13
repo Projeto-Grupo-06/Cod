@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.br.CNPJ;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -75,6 +76,19 @@ public class Restaurante implements Observer {
         this.tipo = tipo;
         this.comentario = comentario;
         this.horariosDeFuncionamento = horariosDeFuncionamento;
+    }
+
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Cardapio> cardapios = new ArrayList<>();
+
+    public void addCardapio(Cardapio cardapio) {
+        cardapios.add(cardapio);
+        cardapio.addObserver(this);
+    }
+
+    public void removeCardapio(Cardapio cardapio) {
+        cardapios.remove(cardapio);
+        cardapio.removeObserver(this);
     }
 
     public Restaurante() {

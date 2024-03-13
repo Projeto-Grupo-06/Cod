@@ -14,3 +14,6 @@ INSERT INTO usuario_restaurante (usuario_id, restaurante_id) VALUES
 (1, 1);
 
 -- ... outras associações ...
+
+-- Inserir Cardapio no restaurante 'Boca Torta'
+INSERT INTO cardapio (imagem, restaurante_id) VALUES ('imagem_do_cardapio.jpg', 1);

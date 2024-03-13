@@ -1,7 +1,12 @@
 package com.bitequest.BiteQuest.service;
 
+import com.bitequest.BiteQuest.cardapio.CardapioCreateRequestDto;
+import com.bitequest.BiteQuest.cardapio.mapper.CardapioMapper;
+import com.bitequest.BiteQuest.entity.Cardapio;
 import com.bitequest.BiteQuest.entity.Restaurante;
+import com.bitequest.BiteQuest.entity.exception.CardapioNaoEncontradoException;
 import com.bitequest.BiteQuest.entity.exception.RestauranteNaoEncontradoException;
+import com.bitequest.BiteQuest.repository.CardapioRepository;
 import com.bitequest.BiteQuest.repository.RestauranteRepository;
 import com.bitequest.BiteQuest.restaurante.RestauranteCreateRequestDto;
 import com.bitequest.BiteQuest.restaurante.RestauranteSimpleResponse;
@@ -15,6 +20,9 @@ public class RestauranteService {
 
     @Autowired
     private RestauranteRepository restauranteRepository;
+
+    @Autowired
+    private CardapioRepository cardapioRepository;
 
     public Restaurante adicionar(RestauranteCreateRequestDto r){
         Restaurante novoRestaurante = new Restaurante(
@@ -66,6 +74,33 @@ public class RestauranteService {
                 ()-> new RestauranteNaoEncontradoException("Restaurante não encontrado")
         );
         return restaurante;
+    }
+
+    public Cardapio adicionarCardapio(Integer idRestaurante, CardapioCreateRequestDto cardapioDto) {
+        Restaurante restaurante = restauranteExiste(idRestaurante);
+        Cardapio cardapio = CardapioMapper.toEntity(cardapioDto);
+        restaurante.addCardapio(cardapio);
+        restauranteRepository.save(restaurante);
+        return cardapio;
+    }
+
+    public Cardapio atualizarCardapio(Integer idRestaurante, Long idCardapio, CardapioCreateRequestDto cardapioDto) {
+        Restaurante restaurante = restauranteExiste(idRestaurante);
+        Cardapio cardapio = cardapioRepository.findById(idCardapio).orElseThrow(
+                () -> new CardapioNaoEncontradoException(idCardapio)
+        );
+        cardapio.setImagem(cardapioDto.getImagem());
+        cardapioRepository.save(cardapio);
+        return cardapio;
+    }
+
+    public void removerCardapio(Integer idRestaurante, Long idCardapio) {
+        Restaurante restaurante = restauranteExiste(idRestaurante);
+        Cardapio cardapio = cardapioRepository.findById(idCardapio).orElseThrow(
+                () -> new CardapioNaoEncontradoException(idCardapio)
+        );
+        restaurante.removeCardapio(cardapio);
+        cardapioRepository.delete(cardapio);
     }
 }
 

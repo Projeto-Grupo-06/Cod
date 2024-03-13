@@ -12,11 +12,6 @@ import java.util.List;
 import java.util.Optional;
 @Repository
 public interface CardapioRepository extends JpaRepository<Cardapio, Long> {
-    Optional<Cardapio> findById(Long id);
-
-    @Modifying
-    @Transactional
-    @Query("DELETE FROM Cardapio c WHERE c.id = :id")
-    void deleteById(Long id);
+    // Não é necessário definir o método deleteById
 }
 

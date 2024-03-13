@@ -1,5 +1,7 @@
 package com.bitequest.BiteQuest.controller;
 
+import com.bitequest.BiteQuest.cardapio.CardapioCreateRequestDto;
+import com.bitequest.BiteQuest.entity.Cardapio;
 import com.bitequest.BiteQuest.entity.Restaurante;
 import com.bitequest.BiteQuest.restaurante.RestauranteCreateRequestDto;
 import com.bitequest.BiteQuest.restaurante.RestauranteSimpleResponse;
@@ -74,6 +76,24 @@ public class RestauranteController {
         String urlMapa = "https://www.google.com/maps/search/?api=1&query=" + cep;
 
         return ResponseEntity.ok(urlMapa);
+    }
+
+    @PostMapping("/{idRestaurante}/cardapios")
+    public ResponseEntity<Cardapio> adicionarCardapio(@PathVariable Integer idRestaurante, @Valid @RequestBody CardapioCreateRequestDto cardapioDto) {
+        Cardapio cardapio = restauranteService.adicionarCardapio(idRestaurante, cardapioDto);
+        return ResponseEntity.ok(cardapio);
+    }
+
+    @PutMapping("/{idRestaurante}/cardapios/{idCardapio}")
+    public ResponseEntity<Cardapio> atualizarCardapio(@PathVariable Integer idRestaurante, @PathVariable Long idCardapio, @Valid @RequestBody CardapioCreateRequestDto cardapioDto) {
+        Cardapio cardapio = restauranteService.atualizarCardapio(idRestaurante, idCardapio, cardapioDto);
+        return ResponseEntity.ok(cardapio);
+    }
+
+    @DeleteMapping("/{idRestaurante}/cardapios/{idCardapio}")
+    public ResponseEntity<Void> removerCardapio(@PathVariable Integer idRestaurante, @PathVariable Long idCardapio) {
+        restauranteService.removerCardapio(idRestaurante, idCardapio);
+        return ResponseEntity.noContent().build();
     }
 }
 

@@ -1,5 +1,7 @@
 package com.bitequest.BiteQuest.restaurante.mapper;
 
+import com.bitequest.BiteQuest.cardapio.CardapioCreateRequestDto;
+import com.bitequest.BiteQuest.entity.Cardapio;
 import com.bitequest.BiteQuest.restaurante.RestauranteCreateRequestDto;
 import com.bitequest.BiteQuest.restaurante.RestauranteResponseDto;
 import com.bitequest.BiteQuest.restaurante.RestauranteSimpleResponse;
@@ -28,6 +30,12 @@ public class RestauranteMapper {
         restaurante.setTipo(requestDto.getTipo()); // Adicionado
         restaurante.setComentario(requestDto.getComentario()); // Adicionado
         restaurante.setHorariosDeFuncionamento(requestDto.getHorariosDeFuncionamento()); // Adicionado
+        if(requestDto.getCardapios() != null) {
+            for(CardapioCreateRequestDto cardapioDto : requestDto.getCardapios()) {
+                Cardapio cardapio = CardapioMapper.toEntity(cardapioDto);
+                restaurante.addCardapio(cardapio);
+            }
+        }
         return restaurante;
     }
 
@@ -47,8 +55,13 @@ public class RestauranteMapper {
         responseDto.setTipo(entity.getTipo()); // Adicionado
         responseDto.setComentario(entity.getComentario()); // Adicionado
         responseDto.setHorariosDeFuncionamento(entity.getHorariosDeFuncionamento()); // Adicionado
-
-        // O código para mapear os cardápios foi removido para simplificar. Se necessário, adicione aqui.
+        if(entity.getCardapios() != null) {
+            List<CardapioResponseDto> cardapioDtos = new ArrayList<>();
+            for(Cardapio cardapio : entity.getCardapios()) {
+                cardapioDtos.add(CardapioMapper.toCardapioResponseDto(cardapio));
+            }
+            responseDto.setCardapios(cardapioDtos);
+        }
 
         return responseDto;
     }

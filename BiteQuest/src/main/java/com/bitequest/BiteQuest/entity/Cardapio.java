@@ -24,6 +24,10 @@ public class Cardapio {
     @Transient
     private List<Observer> observers = new ArrayList<>();
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "restaurante_id")
+    private Restaurante restaurante;
+
     public void addObserver(Observer observer) {
         observers.add(observer);
     }

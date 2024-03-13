@@ -1,5 +1,6 @@
 package com.bitequest.BiteQuest.restaurante;
 
+import com.bitequest.BiteQuest.cardapio.CardapioCreateRequestDto;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PositiveOrZero;
@@ -7,6 +8,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.br.CNPJ;
 
+import java.util.List;
 import java.util.Map;
 
 @Getter
@@ -31,4 +33,6 @@ public class RestauranteCreateRequestDto {
     private String tipo;
     private String comentario; // Adicionado
     private Map<String, String> horariosDeFuncionamento; // Adicionado
+
+    private List<CardapioCreateRequestDto> cardapios;
 }

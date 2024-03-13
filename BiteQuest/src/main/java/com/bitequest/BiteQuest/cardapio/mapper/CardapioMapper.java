@@ -13,7 +13,7 @@ public class CardapioMapper {
         return cardapio;
     }
 
-    public static CardapioResponseDto toCardapioReponseDto(Cardapio entity) {
+    public static CardapioResponseDto toCardapioResponseDto(Cardapio entity) {
         CardapioResponseDto cardapio = new CardapioResponseDto();
         cardapio.setId(entity.getId());
         cardapio.setImagem(entity.getImagem());
@@ -31,4 +31,5 @@ public class CardapioMapper {
         return cardapio;
     }
 }
+
 
