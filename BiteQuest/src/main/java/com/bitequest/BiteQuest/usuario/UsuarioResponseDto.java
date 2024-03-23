@@ -13,5 +13,4 @@ public class UsuarioResponseDto {
     private String sobrenome;
     private LocalDate dataNascimento;
     private String email;
-    private List<Restaurante> restaurantes; // novo campo
 }

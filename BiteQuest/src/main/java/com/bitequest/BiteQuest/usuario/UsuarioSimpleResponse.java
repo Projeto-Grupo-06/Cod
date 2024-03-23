@@ -23,7 +23,6 @@ public class UsuarioSimpleResponse {
         this.sobrenome = usuario.getSobrenome();
         this.email = usuario.getEmail();
         this.dataNascimento = usuario.getDataNascimento();
-        this.restaurantes = usuario.getRestaurantes(); // novo campo
     }
 
     public UsuarioSimpleResponse(){

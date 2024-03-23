@@ -30,7 +30,5 @@ public class UsuarioCreateRequestDto {
 
     @NotBlank(message = "A senha é obrigatória")
     private String senha;
-
-    private List<Restaurante> restaurantes; // novo campo
 }
 

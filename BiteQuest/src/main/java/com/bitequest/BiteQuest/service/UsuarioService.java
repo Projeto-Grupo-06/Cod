@@ -58,19 +58,13 @@ public class UsuarioService {
     public Usuario adicionar(UsuarioCreateRequestDto u){
         String senhaCriptografia = passwordEncoder.encode(u.getSenha());
 
-        // Mesclar cada restaurante antes de salvar o usuário
-        List<Restaurante> restaurantes = u.getRestaurantes().stream()
-                .map(entityManager::merge)
-                .collect(Collectors.toList());
-
         Usuario novoUsuario = usuarioRepository.save(new Usuario(
                 u.getNome(),
                 u.getSobrenome(),
                 u.getCpf(),
                 u.getEmail(),
                 u.getDataNascimento(),
-                senhaCriptografia,
-                restaurantes  // novo campo
+                senhaCriptografia
         ));
 
         return novoUsuario;

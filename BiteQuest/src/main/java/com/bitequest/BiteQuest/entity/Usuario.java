@@ -71,5 +71,14 @@ public class Usuario {
         this.email = email;
         this.restaurantes = restaurantes;
     }
+
+    public Usuario(String nome, String sobrenome, String cpf, String email, LocalDate dataNascimento, String senha) {
+        this.nome = nome;
+        this.sobrenome = sobrenome;
+        this.cpf = cpf;
+        this.email = email;
+        this.dataNascimento = dataNascimento;
+        this.senha = senha;
+    }
 }
 
