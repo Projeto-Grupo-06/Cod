@@ -1,5 +1,6 @@
 package com.bitequest.BiteQuest.service;
 
+import com.bitequest.BiteQuest.entity.Usuario;
 import com.bitequest.BiteQuest.restaurante.RestauranteCreateRequestDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,17 +15,18 @@ public class ArquivoImportador {
     @Autowired
     private RestauranteService restauranteService;
 
-    public void importar(String caminhoArquivo) {
+    public void importar(String caminhoArquivo, Usuario usuario) {
         try (BufferedReader br = new BufferedReader(new FileReader(caminhoArquivo))) {
             String linha;
             while ((linha = br.readLine()) != null) {
                 RestauranteCreateRequestDto restauranteDto = processarLinha(linha);
-                restauranteService.adicionar(restauranteDto);
+                restauranteService.adicionar(restauranteDto, usuario);
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
+
 
     private RestauranteCreateRequestDto processarLinha(String linha) {
         String[] campos = linha.split("\t");

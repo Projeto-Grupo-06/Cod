@@ -43,13 +43,13 @@ public class Usuario {
         }
     }
 
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinTable(
-            name = "usuario_restaurante",
-            joinColumns = @JoinColumn(name = "usuario_id"),
-            inverseJoinColumns = @JoinColumn(name = "restaurante_id")
-    )
-    private List<Restaurante> restaurantes = new ArrayList<>();
+    //@OneToMany(cascade = CascadeType.ALL)
+    //@JoinTable(
+    //       name = "usuario_restaurante",
+    //        joinColumns = @JoinColumn(name = "usuario_id"),
+    //        inverseJoinColumns = @JoinColumn(name = "restaurante_id")
+    //)
+    //private List<Restaurante> restaurantes = new ArrayList<>();
 
 
     public Usuario() {
@@ -62,14 +62,12 @@ public class Usuario {
         this.email = email;
         this.dataNascimento = dataNascimento;
         this.senha = senha;
-        this.restaurantes = restaurantes;
     }
 
     public Usuario(Long id, String nome, String email, List<Restaurante> restaurantes) {
         this.id = id;
         this.nome = nome;
         this.email = email;
-        this.restaurantes = restaurantes;
     }
 
     public Usuario(String nome, String sobrenome, String cpf, String email, LocalDate dataNascimento, String senha) {

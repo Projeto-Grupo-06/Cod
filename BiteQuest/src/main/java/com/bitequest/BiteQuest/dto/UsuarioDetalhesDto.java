@@ -16,14 +16,11 @@ public class UsuarioDetalhesDto implements UserDetails {
     private Long id;
     private final String email;
     private final String senha;
-    @Getter
-    private final List<Restaurante> restaurantes;
 
     public UsuarioDetalhesDto(Usuario usuario) {
         this.id = usuario.getId();
         this.email = usuario.getEmail();
         this.senha = usuario.getSenha();
-        this.restaurantes = usuario.getRestaurantes();
     }
 
 

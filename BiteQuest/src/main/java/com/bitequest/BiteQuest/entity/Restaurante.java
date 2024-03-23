@@ -78,8 +78,27 @@ public class Restaurante implements Observer {
         this.horariosDeFuncionamento = horariosDeFuncionamento;
     }
 
+    public Restaurante(String nome, String cnpj, String cep, String endereco, String numero, String complemento, String descricao, String tipo, String comentario, Map<String, String> horariosDeFuncionamento, Usuario usuario) {
+        this.nome = nome;
+        this.cnpj = cnpj;
+        this.cep = cep;
+        this.endereco = endereco;
+        this.numero = numero;
+        this.complemento = complemento;
+        this.descricao = descricao;
+        this.tipo = tipo;
+        this.comentario = comentario;
+        this.horariosDeFuncionamento = horariosDeFuncionamento;
+        this.usuario = usuario;
+        // ... inicialização de outros campos ...
+    }
+
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Cardapio> cardapios = new ArrayList<>();
+
+    @ManyToOne
+    @JoinColumn(name = "usuario_id")
+    private Usuario usuario;
 
     public void addCardapio(Cardapio cardapio) {
         cardapios.add(cardapio);

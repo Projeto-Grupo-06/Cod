@@ -3,17 +3,22 @@ package com.bitequest.BiteQuest.controller;
 import com.bitequest.BiteQuest.cardapio.CardapioCreateRequestDto;
 import com.bitequest.BiteQuest.entity.Cardapio;
 import com.bitequest.BiteQuest.entity.Restaurante;
+import com.bitequest.BiteQuest.entity.Usuario;
 import com.bitequest.BiteQuest.restaurante.RestauranteCreateRequestDto;
 import com.bitequest.BiteQuest.restaurante.RestauranteSimpleResponse;
 import com.bitequest.BiteQuest.service.RestauranteService;
+import com.bitequest.BiteQuest.service.UsuarioService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.util.Pair;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.AbstractMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
+
 
 @RestController
 @RequestMapping("/restaurantes")
@@ -22,7 +27,11 @@ public class RestauranteController {
     @Autowired
     private RestauranteService restauranteService;
 
-    private Queue<RestauranteCreateRequestDto> filaAdicoes = new LinkedList<>();
+    @Autowired
+    private UsuarioService usuarioService;
+
+    Queue<AbstractMap.SimpleEntry<RestauranteCreateRequestDto, Usuario>> filaAdicoes = new LinkedList<>();
+
 
     @GetMapping
     public ResponseEntity<List<Restaurante>> listarRestaurantes() {
@@ -40,16 +49,20 @@ public class RestauranteController {
     }
 
     @PostMapping
-    public ResponseEntity<Restaurante> adicionarRestaurante(@Valid @RequestBody RestauranteCreateRequestDto r) {
+    public ResponseEntity<Restaurante> adicionarRestaurante(@Valid @RequestBody RestauranteCreateRequestDto r, @RequestParam Long usuarioId) {
+        // Busca o usuário pelo ID
+        Usuario usuario = usuarioService.usuarioPorId(usuarioId);
+
         // Adiciona a solicitação à fila
-        filaAdicoes.add(r);
+        filaAdicoes.add(new AbstractMap.SimpleEntry<>(r, usuario));
 
         // Processa a primeira solicitação na fila
-        RestauranteCreateRequestDto requestDto = filaAdicoes.poll();
-        Restaurante restaurante = restauranteService.adicionar(requestDto);
+        AbstractMap.SimpleEntry<RestauranteCreateRequestDto, Usuario> requestEntry = filaAdicoes.poll();
+        Restaurante restaurante = restauranteService.adicionar(requestEntry.getKey(), requestEntry.getValue());
 
         return ResponseEntity.ok(restaurante);
     }
+
 
     @PutMapping("/{id}")
     public ResponseEntity<Restaurante> editarRestaurante(@PathVariable Integer id, @RequestBody RestauranteSimpleResponse r) {

@@ -2,6 +2,7 @@ package com.bitequest.BiteQuest.restaurante.mapper;
 
 import com.bitequest.BiteQuest.cardapio.CardapioCreateRequestDto;
 import com.bitequest.BiteQuest.entity.Cardapio;
+import com.bitequest.BiteQuest.entity.Usuario;
 import com.bitequest.BiteQuest.restaurante.RestauranteCreateRequestDto;
 import com.bitequest.BiteQuest.restaurante.RestauranteResponseDto;
 import com.bitequest.BiteQuest.restaurante.RestauranteSimpleResponse;
@@ -15,7 +16,7 @@ import java.util.stream.Collectors;
 
 public class RestauranteMapper {
 
-    public static Restaurante toEntity(RestauranteCreateRequestDto requestDto){
+    public static Restaurante toEntity(RestauranteCreateRequestDto requestDto, Usuario usuario){
         if(requestDto == null) {
             return null;
         }
@@ -30,6 +31,7 @@ public class RestauranteMapper {
         restaurante.setTipo(requestDto.getTipo()); // Adicionado
         restaurante.setComentario(requestDto.getComentario()); // Adicionado
         restaurante.setHorariosDeFuncionamento(requestDto.getHorariosDeFuncionamento()); // Adicionado
+        restaurante.setUsuario(usuario); // Adicionado
         if(requestDto.getCardapios() != null) {
             for(CardapioCreateRequestDto cardapioDto : requestDto.getCardapios()) {
                 Cardapio cardapio = CardapioMapper.toEntity(cardapioDto);
@@ -38,6 +40,7 @@ public class RestauranteMapper {
         }
         return restaurante;
     }
+
 
     public static RestauranteResponseDto toRestauranteResponseDto(Restaurante entity) {
         if(entity == null) {

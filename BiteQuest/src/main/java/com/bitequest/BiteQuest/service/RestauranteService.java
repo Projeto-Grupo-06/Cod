@@ -4,6 +4,7 @@ import com.bitequest.BiteQuest.cardapio.CardapioCreateRequestDto;
 import com.bitequest.BiteQuest.cardapio.mapper.CardapioMapper;
 import com.bitequest.BiteQuest.entity.Cardapio;
 import com.bitequest.BiteQuest.entity.Restaurante;
+import com.bitequest.BiteQuest.entity.Usuario;
 import com.bitequest.BiteQuest.entity.exception.CardapioNaoEncontradoException;
 import com.bitequest.BiteQuest.entity.exception.RestauranteNaoEncontradoException;
 import com.bitequest.BiteQuest.repository.CardapioRepository;
@@ -24,7 +25,7 @@ public class RestauranteService {
     @Autowired
     private CardapioRepository cardapioRepository;
 
-    public Restaurante adicionar(RestauranteCreateRequestDto r){
+    public Restaurante adicionar(RestauranteCreateRequestDto r, Usuario usuario){
         Restaurante novoRestaurante = new Restaurante(
                 r.getNome(),
                 r.getCnpj(),
@@ -35,10 +36,12 @@ public class RestauranteService {
                 r.getDescricao(),
                 r.getTipo(),
                 r.getComentario(), // Adicionado
-                r.getHorariosDeFuncionamento() // Adicionado
+                r.getHorariosDeFuncionamento(), // Adicionado
+                usuario // Adicionado
         );
         return restauranteRepository.save(novoRestaurante);
     }
+
 
     public List<Restaurante> todosRestaurantes(){
         return restauranteRepository.findAll();

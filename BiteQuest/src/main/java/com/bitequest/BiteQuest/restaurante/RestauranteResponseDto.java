@@ -34,5 +34,8 @@ public class RestauranteResponseDto {
     private Map<String, String> horariosDeFuncionamento; // Adicionado
 
     private List<CardapioResponseDto> cardapios;
+
+    private Long usuarioId; // Adicionado
 }
+
 

@@ -5,13 +5,9 @@ INSERT INTO usuario (nome, sobrenome, cpf, email, data_nascimento, senha) VALUES
 -- ... outros usuários ...
 
 -- Inserir restaurantes
-INSERT INTO restaurante (id, nome, cnpj, cep, endereco, numero, complemento, descricao, tipo, comentario) VALUES
-(1, 'Boca Torta', '12345678901234', '12345678', 'R. Membeca', '64', 'casa na arvore', 'portão branco', 'residencia', 'Comentário sobre o restaurante');
+INSERT INTO restaurante (id, nome, cnpj, cep, endereco, numero, complemento, descricao, tipo, comentario, usuario_id) VALUES
+(1, 'Boca Torta', '12345678901234', '12345678', 'R. Membeca', '64', 'casa na arvore', 'portão branco', 'residencia', 'Comentário sobre o restaurante', 1);
 -- ... outros restaurantes ...
-
--- Associar usuários e restaurantes
-INSERT INTO usuario_restaurante (usuario_id, restaurante_id) VALUES
-(1, 1);
 
 -- ... outras associações ...
 
