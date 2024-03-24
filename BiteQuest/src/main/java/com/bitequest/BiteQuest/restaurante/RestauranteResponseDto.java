@@ -35,8 +35,7 @@ public class RestauranteResponseDto {
 
     private List<CardapioResponseDto> cardapios;
 
-    private String nomeUsuario; // Adicionado
+    private Long usuarioId; // Adicionado
 }
-
 
 

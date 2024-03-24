@@ -12,10 +12,8 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.util.Pair;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
 
-import java.security.Principal;
 import java.util.AbstractMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -51,11 +49,9 @@ public class RestauranteController {
     }
 
     @PostMapping
-    public ResponseEntity<Restaurante> adicionarRestaurante(@Valid @RequestBody RestauranteCreateRequestDto r, Principal principal) {
-        // Busca o usuário logado
-        Usuario usuario = usuarioService.usuarioPorEmail(principal.getName()).orElseThrow(
-                () -> new UsernameNotFoundException("Usuário não encontrado")
-        );
+    public ResponseEntity<Restaurante> adicionarRestaurante(@Valid @RequestBody RestauranteCreateRequestDto r, @RequestParam Long usuarioId) {
+        // Busca o usuário pelo ID
+        Usuario usuario = usuarioService.usuarioPorId(usuarioId);
 
         // Adiciona a solicitação à fila
         filaAdicoes.add(new AbstractMap.SimpleEntry<>(r, usuario));
@@ -66,8 +62,6 @@ public class RestauranteController {
 
         return ResponseEntity.ok(restaurante);
     }
-
-
 
 
     @PutMapping("/{id}")

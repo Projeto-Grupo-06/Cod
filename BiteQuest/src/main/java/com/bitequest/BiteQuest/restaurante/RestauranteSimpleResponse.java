@@ -34,8 +34,7 @@ public class RestauranteSimpleResponse {
     private String comentario; // Adicionado
     private Map<String, String> horariosDeFuncionamento; // Adicionado
 
-    private String nomeUsuario; // Adicionado
+    private Long usuarioId; // Adicionado
 }
-
 
 
