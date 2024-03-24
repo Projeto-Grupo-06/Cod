@@ -31,7 +31,6 @@ public class RestauranteMapper {
         restaurante.setTipo(requestDto.getTipo()); // Adicionado
         restaurante.setComentario(requestDto.getComentario()); // Adicionado
         restaurante.setHorariosDeFuncionamento(requestDto.getHorariosDeFuncionamento()); // Adicionado
-        restaurante.setUsuario(usuario); // Adicionado
         if(requestDto.getCardapios() != null) {
             for(CardapioCreateRequestDto cardapioDto : requestDto.getCardapios()) {
                 Cardapio cardapio = CardapioMapper.toEntity(cardapioDto);

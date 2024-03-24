@@ -36,6 +36,5 @@ public class RestauranteCreateRequestDto {
 
     private List<CardapioCreateRequestDto> cardapios;
 
-    private Long usuarioId; // Adicionado
 }
 
