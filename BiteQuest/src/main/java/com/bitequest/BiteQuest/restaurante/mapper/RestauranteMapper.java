@@ -58,6 +58,7 @@ public class RestauranteMapper {
         responseDto.setTipo(entity.getTipo()); // Adicionado
         responseDto.setComentario(entity.getComentario()); // Adicionado
         responseDto.setHorariosDeFuncionamento(entity.getHorariosDeFuncionamento()); // Adicionado
+        responseDto.setNomeUsuario(entity.getUsuario().getNome()); // Adicionado
         if(entity.getCardapios() != null) {
             List<CardapioResponseDto> cardapioDtos = new ArrayList<>();
             for(Cardapio cardapio : entity.getCardapios()) {
@@ -68,6 +69,7 @@ public class RestauranteMapper {
 
         return responseDto;
     }
+
 
     public static RestauranteSimpleResponse toRestauranteSimpleResponse(Restaurante entity) {
         if(entity == null) {

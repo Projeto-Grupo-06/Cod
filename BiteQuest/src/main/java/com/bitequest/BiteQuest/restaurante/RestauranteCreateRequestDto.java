@@ -35,7 +35,6 @@ public class RestauranteCreateRequestDto {
     private Map<String, String> horariosDeFuncionamento; // Adicionado
 
     private List<CardapioCreateRequestDto> cardapios;
-
-    private Long usuarioId; // Adicionado
 }
+
 
