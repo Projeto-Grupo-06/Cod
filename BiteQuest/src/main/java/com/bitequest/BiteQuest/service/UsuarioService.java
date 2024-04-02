@@ -87,9 +87,11 @@ public class UsuarioService {
 
     public Usuario editar(Long id, UsuarioSimpleResponse u){
         Usuario usuario = usuarioExiste(id);
-        Usuario usuarioEditado = usuarioRepository.save(new Usuario(usuario.getId(), u.getNome(), u.getEmail(), u.getRestaurantes())); // novo campo
+        Usuario usuarioEditado = usuarioRepository.save(new Usuario(usuario.getId(), u.getNome(), u.getEmail()));
         return usuarioEditado;
     }
+
+
 
     public void deletarUsuario(Long id){
         usuarioRepository.deleteById(id);

@@ -43,7 +43,6 @@ public class Usuario {
         }
     }
 
-
     public Usuario() {
     }
 
@@ -70,5 +69,11 @@ public class Usuario {
         this.dataNascimento = dataNascimento;
         this.senha = senha;
     }
-}
 
+    // Construtor adicionado
+    public Usuario(Long id, String nome, String email) {
+        this.id = id;
+        this.nome = nome;
+        this.email = email;
+    }
+}
