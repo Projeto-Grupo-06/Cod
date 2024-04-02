@@ -14,8 +14,6 @@ public class UsuarioSimpleResponse {
     private String sobrenome;
     private String email;
     private LocalDate dataNascimento;
-    private Boolean hasDono;
-    private List<Restaurante> restaurantes; // novo campo
 
     public UsuarioSimpleResponse(Usuario usuario) {
         this.id = usuario.getId();
