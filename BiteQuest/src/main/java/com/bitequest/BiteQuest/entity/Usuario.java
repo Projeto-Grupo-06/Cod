@@ -43,14 +43,6 @@ public class Usuario {
         }
     }
 
-    //@OneToMany(cascade = CascadeType.ALL)
-    //@JoinTable(
-    //       name = "usuario_restaurante",
-    //        joinColumns = @JoinColumn(name = "usuario_id"),
-    //        inverseJoinColumns = @JoinColumn(name = "restaurante_id")
-    //)
-    //private List<Restaurante> restaurantes = new ArrayList<>();
-
 
     public Usuario() {
     }
