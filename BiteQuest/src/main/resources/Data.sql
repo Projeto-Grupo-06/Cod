@@ -1,6 +1,6 @@
 -- Inserir usuários
 INSERT INTO usuario (nome, sobrenome, cpf, email, data_nascimento, senha) VALUES
-('Isabel', 'Novaes de Jesus', '57903074423', 'isabelnjesus@gmail.com', '1989-04-26', 'hoje123'),
+('Isabel', 'Novaes1 de Jesus', '57903074423', 'isabelnjesus@gmail.com', '1989-04-26', 'hoje123'),
 ('Claudio', 'Roberto Mainetti', '34391372363', 'cla.mainetti@gmail.com', '1971-01-19', 'rafa2627');
 -- ... outros usuários ...
 
