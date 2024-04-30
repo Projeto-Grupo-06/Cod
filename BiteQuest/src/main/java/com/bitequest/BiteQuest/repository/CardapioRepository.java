@@ -12,6 +12,6 @@ import java.util.List;
 import java.util.Optional;
 @Repository
 public interface CardapioRepository extends JpaRepository<Cardapio, Long> {
-    // Não é necessário definir o método deleteById
+
 }
 

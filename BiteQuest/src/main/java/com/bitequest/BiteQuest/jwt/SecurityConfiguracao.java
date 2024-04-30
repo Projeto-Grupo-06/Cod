@@ -54,16 +54,24 @@ public class SecurityConfiguracao {
             new AntPathRequestMatcher("/v3/api-docs/**"),
             new AntPathRequestMatcher("/usuarios/dados"),
             new AntPathRequestMatcher("/actuator/**"),
-            new AntPathRequestMatcher("/restaurantes/**"),
-            new AntPathRequestMatcher("/cardapios/**"),
+            new AntPathRequestMatcher("/restaurantes/**", "GET"),
+            new AntPathRequestMatcher("/restaurantes/**", "POST"),
+            new AntPathRequestMatcher("/restaurantes/**", "PUT"),
+            new AntPathRequestMatcher("/restaurantes/**", "DELETE"),
+            new AntPathRequestMatcher("/cardapios/**", "GET"),
+            new AntPathRequestMatcher("/cardapios/**", "POST"),
+            new AntPathRequestMatcher("/cardapios/**", "PUT"),
+            new AntPathRequestMatcher("/cardapios/**", "DELETE"),
             new AntPathRequestMatcher("/usuarios/login"),
-            new AntPathRequestMatcher("/usuarios/**"),
+            new AntPathRequestMatcher("/usuarios/**", "GET"),
+            new AntPathRequestMatcher("/usuarios/**", "POST"),
+            new AntPathRequestMatcher("/usuarios/**", "PUT"),
+            new AntPathRequestMatcher("/usuarios/**", "DELETE"),
             new AntPathRequestMatcher("/usuarios", "POST"),
             new AntPathRequestMatcher("/h2-console/**"),
             new AntPathRequestMatcher("/error/**"),
             new AntPathRequestMatcher("/health/**")
     };
-
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
