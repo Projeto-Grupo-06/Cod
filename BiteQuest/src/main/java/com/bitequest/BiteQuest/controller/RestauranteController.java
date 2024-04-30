@@ -1,10 +1,12 @@
 package com.bitequest.BiteQuest.controller;
 
 import com.bitequest.BiteQuest.cardapio.CardapioCreateRequestDto;
+import com.bitequest.BiteQuest.controller.Erro.ErroResponse;
 import com.bitequest.BiteQuest.entity.Cardapio;
 import com.bitequest.BiteQuest.entity.Restaurante;
 import com.bitequest.BiteQuest.entity.Usuario;
 import com.bitequest.BiteQuest.entity.exception.RestauranteNaoEncontradoException;
+import com.bitequest.BiteQuest.entity.exception.UsuarioNaoEncontradoException;
 import com.bitequest.BiteQuest.restaurante.RestauranteCreateRequestDto;
 import com.bitequest.BiteQuest.restaurante.RestauranteSimpleResponse;
 import com.bitequest.BiteQuest.service.RestauranteService;
@@ -26,129 +28,97 @@ import java.util.Queue;
 @RequestMapping("/restaurantes")
 public class RestauranteController {
 
-    @Autowired
-    private RestauranteService restauranteService;
-
-    @Autowired
-    private UsuarioService usuarioService;
+    private final RestauranteService restauranteService;
+    private final UsuarioService usuarioService;
 
     Queue<AbstractMap.SimpleEntry<RestauranteCreateRequestDto, Usuario>> filaAdicoes = new LinkedList<>();
 
+    @Autowired
+    public RestauranteController(RestauranteService restauranteService, UsuarioService usuarioService) {
+        this.restauranteService = restauranteService;
+        this.usuarioService = usuarioService;
+    }
+
+    @ExceptionHandler({RestauranteNaoEncontradoException.class, UsuarioNaoEncontradoException.class})
+    public ResponseEntity<ErroResponse> handleNotFoundException(Exception ex) {
+        ErroResponse erro = new ErroResponse(HttpStatus.NOT_FOUND.value(), ex.getMessage());
+        return new ResponseEntity<>(erro, HttpStatus.NOT_FOUND);
+    }
+
     @GetMapping
-    public ResponseEntity<?> listarRestaurantes() {
-        try {
-            List<Restaurante> restaurantes = restauranteService.todosRestaurantes();
-            if (restaurantes.isEmpty()) {
-                return ResponseEntity.noContent().build();
-            }
-            return ResponseEntity.ok(restaurantes);
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao listar restaurantes: " + e.getMessage());
+    public ResponseEntity<List<Restaurante>> listarRestaurantes() throws Exception {
+        List<Restaurante> restaurantes = restauranteService.todosRestaurantes();
+        if (restaurantes.isEmpty()) {
+            return ResponseEntity.noContent().build();
         }
+        return ResponseEntity.ok(restaurantes);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> restaurantePorId(@PathVariable Integer id) {
-        try {
-            Restaurante restaurante = restauranteService.restaurantePorId(id);
-            if (restaurante == null) {
-                throw new RestauranteNaoEncontradoException(id.toString());
-            }
-            return ResponseEntity.ok(restaurante);
-        } catch (RestauranteNaoEncontradoException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao buscar restaurante: " + e.getMessage());
-        }
+    public ResponseEntity<Restaurante> restaurantePorId(@PathVariable Integer id) throws RestauranteNaoEncontradoException {
+        Restaurante restaurante = restauranteService.restaurantePorId(id);
+        return ResponseEntity.ok(restaurante);
     }
 
     @PostMapping
-    public ResponseEntity<?> adicionarRestaurante(@Valid @RequestBody RestauranteCreateRequestDto r, @RequestParam Long usuarioId) {
-        try {
-            // Busca o usuário pelo ID
-            Usuario usuario = usuarioService.usuarioPorId(usuarioId);
+    public ResponseEntity<Restaurante> adicionarRestaurante(@Valid @RequestBody RestauranteCreateRequestDto r, @RequestParam Long usuarioId) throws Exception {
+        // Busca o usuário pelo ID
+        Usuario usuario = usuarioService.usuarioPorId(usuarioId);
 
-            // Adiciona a solicitação à fila
-            filaAdicoes.add(new AbstractMap.SimpleEntry<>(r, usuario));
+        // Adiciona a solicitação à fila
+        filaAdicoes.add(new AbstractMap.SimpleEntry<>(r, usuario));
 
-            // Processa a primeira solicitação na fila
-            AbstractMap.SimpleEntry<RestauranteCreateRequestDto, Usuario> requestEntry = filaAdicoes.poll();
-            Restaurante restaurante = restauranteService.adicionar(requestEntry.getKey(), requestEntry.getValue());
+        // Processa a primeira solicitação na fila
+        AbstractMap.SimpleEntry<RestauranteCreateRequestDto, Usuario> requestEntry = filaAdicoes.poll();
+        Restaurante restaurante = restauranteService.adicionar(requestEntry.getKey(), requestEntry.getValue());
 
-            return ResponseEntity.ok("Restaurante adicionado com sucesso");
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao adicionar restaurante: " + e.getMessage());
-        }
+        return ResponseEntity.ok(restaurante);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> editarRestaurante(@PathVariable Integer id, @RequestBody RestauranteSimpleResponse r) {
-        try {
-            Restaurante restaurante = restauranteService.editar(id, r);
-            return ResponseEntity.ok("Restaurante editado com sucesso");
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao editar restaurante: " + e.getMessage());
-        }
+    public ResponseEntity<Restaurante> editarRestaurante(@PathVariable Integer id, @RequestBody RestauranteSimpleResponse r) throws Exception {
+        Restaurante restaurante = restauranteService.editar(id, r);
+        return ResponseEntity.ok(restaurante);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deletarRestaurante(@PathVariable Integer id) {
-        try {
-            restauranteService.deletarRestaurante(id);
-            return ResponseEntity.ok("Restaurante deletado com sucesso");
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao deletar restaurante: " + e.getMessage());
-        }
+    public ResponseEntity<Void> deletarRestaurante(@PathVariable Integer id) throws Exception {
+        restauranteService.deletarRestaurante(id);
+        return ResponseEntity.noContent().build();
     }
 
     @GetMapping("/{id}/mapa")
-    public ResponseEntity<?> abrirMapaRestaurante(@PathVariable Integer id) {
-        try {
-            Restaurante restaurante = restauranteService.restaurantePorId(id);
+    public ResponseEntity<String> abrirMapaRestaurante(@PathVariable Integer id) throws Exception {
+        Restaurante restaurante = restauranteService.restaurantePorId(id);
 
-            // Obtenha o CEP do restaurante
-            String cep = restaurante.getCep();
+        // Obtenha o CEP do restaurante
+        String cep = restaurante.getCep();
 
-            // Substitua os espaços por '+' para formar a URL corretamente
-            cep = cep.replace(" ", "+");
+        // Substitua os espaços por '+' para formar a URL corretamente
+        cep = cep.replace(" ", "+");
 
-            // Cria a URL do Google Maps para o CEP
-            String urlMapa = "https://www.google.com/maps/search/?api=1&query=" + cep;
+        // Cria a URL do Google Maps para o CEP
+        String urlMapa = "https://www.google.com/maps/search/?api=1&query=" + cep;
 
-            return ResponseEntity.ok(urlMapa);
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao abrir mapa do restaurante: " + e.getMessage());
-        }
+        return ResponseEntity.ok(urlMapa);
     }
 
     @PostMapping("/{idRestaurante}/cardapios")
-    public ResponseEntity<?> adicionarCardapio(@PathVariable Integer idRestaurante, @Valid @RequestBody CardapioCreateRequestDto cardapioDto) {
-        try {
-            Cardapio cardapio = restauranteService.adicionarCardapio(idRestaurante, cardapioDto);
-            return ResponseEntity.ok("Cardápio adicionado com sucesso");
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao adicionar cardápio: " + e.getMessage());
-        }
+    public ResponseEntity<Cardapio> adicionarCardapio(@PathVariable Integer idRestaurante, @Valid @RequestBody CardapioCreateRequestDto cardapioDto) throws Exception {
+        Cardapio cardapio = restauranteService.adicionarCardapio(idRestaurante, cardapioDto);
+        return ResponseEntity.ok(cardapio);
     }
 
     @PutMapping("/{idRestaurante}/cardapios/{idCardapio}")
-    public ResponseEntity<?> atualizarCardapio(@PathVariable Integer idRestaurante, @PathVariable Long idCardapio, @Valid @RequestBody CardapioCreateRequestDto cardapioDto) {
-        try {
-            Cardapio cardapio = restauranteService.atualizarCardapio(idRestaurante, idCardapio, cardapioDto);
-            return ResponseEntity.ok("Cardápio atualizado com sucesso");
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao atualizar cardápio: " + e.getMessage());
-        }
+    public ResponseEntity<Cardapio> atualizarCardapio(@PathVariable Integer idRestaurante, @PathVariable Long idCardapio, @Valid @RequestBody CardapioCreateRequestDto cardapioDto) throws Exception {
+        Cardapio cardapio = restauranteService.atualizarCardapio(idRestaurante, idCardapio, cardapioDto);
+        return ResponseEntity.ok(cardapio);
     }
 
     @DeleteMapping("/{idRestaurante}/cardapios/{idCardapio}")
-    public ResponseEntity<?> removerCardapio(@PathVariable Integer idRestaurante, @PathVariable Long idCardapio) {
-        try {
-            restauranteService.removerCardapio(idRestaurante, idCardapio);
-            return ResponseEntity.ok("Cardápio removido com sucesso");
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao remover cardápio: " + e.getMessage());
-        }
+    public ResponseEntity<Void> removerCardapio(@PathVariable Integer idRestaurante, @PathVariable Long idCardapio) throws Exception {
+        restauranteService.removerCardapio(idRestaurante, idCardapio);
+        return ResponseEntity.noContent().build();
     }
 }
 

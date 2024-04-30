@@ -1,5 +1,6 @@
 package com.bitequest.BiteQuest.controller;
 
+import com.bitequest.BiteQuest.controller.Erro.ErroResponse;
 import com.bitequest.BiteQuest.entity.Cardapio;
 import com.bitequest.BiteQuest.entity.exception.CardapioNaoEncontradoException;
 import com.bitequest.BiteQuest.service.CardapioService;
@@ -14,45 +15,38 @@ import java.util.List;
 @RequestMapping("/cardapios")
 public class CardapioController {
 
+    private final CardapioService cardapioService;
+
     @Autowired
-    private CardapioService cardapioService;
+    public CardapioController(CardapioService cardapioService) {
+        this.cardapioService = cardapioService;
+    }
+
+    @ExceptionHandler(CardapioNaoEncontradoException.class)
+    public ResponseEntity<ErroResponse> handleCardapioNotFoundException(CardapioNaoEncontradoException ex) {
+        ErroResponse erro = new ErroResponse(HttpStatus.NOT_FOUND.value(), ex.getMessage());
+        return new ResponseEntity<>(erro, HttpStatus.NOT_FOUND);
+    }
 
     @GetMapping
-    public ResponseEntity<?> listarCardapios(){
-        try {
-            List<Cardapio> cardapios = cardapioService.todosCardapios();
-            if (cardapios.isEmpty()){
-                return ResponseEntity.noContent().build();
-            }
-            return ResponseEntity.ok(cardapios);
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao listar cardápios: " + e.getMessage());
+    public ResponseEntity<List<Cardapio>> listarCardapios() throws Exception {
+        List<Cardapio> cardapios = cardapioService.todosCardapios();
+        if (cardapios.isEmpty()){
+            return ResponseEntity.noContent().build();
         }
+        return ResponseEntity.ok(cardapios);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> cardapioPorId(@PathVariable Long id){
-        try {
-            Cardapio cardapio = cardapioService.cardapioPorId(id);
-            if (cardapio == null) {
-                throw new CardapioNaoEncontradoException(id);
-            }
-            return ResponseEntity.ok(cardapio);
-        } catch (CardapioNaoEncontradoException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao buscar cardápio: " + e.getMessage());
-        }
+    public ResponseEntity<Cardapio> cardapioPorId(@PathVariable Long id) throws CardapioNaoEncontradoException {
+        Cardapio cardapio = cardapioService.cardapioPorId(id);
+        return ResponseEntity.ok(cardapio);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deletarCardapio(@PathVariable Long id){
-        try {
-            cardapioService.deletarCardapio(id);
-            return ResponseEntity.ok("Cardápio deletado com sucesso");
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao deletar cardápio: " + e.getMessage());
-        }
+    public ResponseEntity<Void> deletarCardapio(@PathVariable Long id) throws Exception {
+        cardapioService.deletarCardapio(id);
+        return ResponseEntity.noContent().build();
     }
 }
 
