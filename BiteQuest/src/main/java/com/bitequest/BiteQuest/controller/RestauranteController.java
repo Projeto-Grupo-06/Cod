@@ -3,10 +3,12 @@ package com.bitequest.BiteQuest.controller;
 import com.bitequest.BiteQuest.cardapio.CardapioCreateRequestDto;
 import com.bitequest.BiteQuest.controller.Erro.ErroResponse;
 import com.bitequest.BiteQuest.entity.Cardapio;
+import com.bitequest.BiteQuest.entity.Comentario;
 import com.bitequest.BiteQuest.entity.Restaurante;
 import com.bitequest.BiteQuest.entity.Usuario;
 import com.bitequest.BiteQuest.entity.exception.RestauranteNaoEncontradoException;
 import com.bitequest.BiteQuest.entity.exception.UsuarioNaoEncontradoException;
+import com.bitequest.BiteQuest.repository.ComentarioRepository;
 import com.bitequest.BiteQuest.restaurante.RestauranteCreateRequestDto;
 import com.bitequest.BiteQuest.restaurante.RestauranteSimpleResponse;
 import com.bitequest.BiteQuest.service.RestauranteService;
@@ -30,6 +32,8 @@ public class RestauranteController {
 
     private final RestauranteService restauranteService;
     private final UsuarioService usuarioService;
+    @Autowired
+    private ComentarioRepository comentarioRepository;
 
     Queue<AbstractMap.SimpleEntry<RestauranteCreateRequestDto, Usuario>> filaAdicoes = new LinkedList<>();
 
@@ -40,13 +44,13 @@ public class RestauranteController {
     }
 
     @ExceptionHandler({RestauranteNaoEncontradoException.class, UsuarioNaoEncontradoException.class})
-    public ResponseEntity<ErroResponse> handleNotFoundException(Exception ex) {
+    public ResponseEntity<ErroResponse> tratarExcecaoNaoEncontrado(Exception ex) {
         ErroResponse erro = new ErroResponse(HttpStatus.NOT_FOUND.value(), ex.getMessage());
         return new ResponseEntity<>(erro, HttpStatus.NOT_FOUND);
     }
 
     @GetMapping
-    public ResponseEntity<List<Restaurante>> listarRestaurantes() throws Exception {
+    public ResponseEntity<List<Restaurante>> obterTodosRestaurantes() throws Exception {
         List<Restaurante> restaurantes = restauranteService.todosRestaurantes();
         if (restaurantes.isEmpty()) {
             return ResponseEntity.noContent().build();
@@ -55,13 +59,13 @@ public class RestauranteController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Restaurante> restaurantePorId(@PathVariable Integer id) throws RestauranteNaoEncontradoException {
+    public ResponseEntity<Restaurante> obterRestaurantePorId(@PathVariable Integer id) throws RestauranteNaoEncontradoException {
         Restaurante restaurante = restauranteService.restaurantePorId(id);
         return ResponseEntity.ok(restaurante);
     }
 
     @PostMapping
-    public ResponseEntity<Restaurante> adicionarRestaurante(@Valid @RequestBody RestauranteCreateRequestDto r, @RequestParam Long usuarioId) throws Exception {
+    public ResponseEntity<Restaurante> criarRestaurante(@Valid @RequestBody RestauranteCreateRequestDto r, @RequestParam Long usuarioId) throws Exception {
         // Busca o usuário pelo ID
         Usuario usuario = usuarioService.usuarioPorId(usuarioId);
 
@@ -76,35 +80,32 @@ public class RestauranteController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Restaurante> editarRestaurante(@PathVariable Integer id, @RequestBody RestauranteSimpleResponse r) throws Exception {
+    public ResponseEntity<Restaurante> atualizarRestaurante(@PathVariable Integer id, @RequestBody RestauranteSimpleResponse r) throws Exception {
         Restaurante restaurante = restauranteService.editar(id, r);
         return ResponseEntity.ok(restaurante);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deletarRestaurante(@PathVariable Integer id) throws Exception {
+    public ResponseEntity<Void> removerRestaurante(@PathVariable Integer id) throws Exception {
         restauranteService.deletarRestaurante(id);
         return ResponseEntity.noContent().build();
     }
 
     @GetMapping("/{id}/mapa")
-    public ResponseEntity<String> abrirMapaRestaurante(@PathVariable Integer id) throws Exception {
+    public ResponseEntity<String> obterMapaRestaurante(@PathVariable Integer id) throws Exception {
         Restaurante restaurante = restauranteService.restaurantePorId(id);
 
-        // Obtenha o CEP do restaurante
         String cep = restaurante.getCep();
 
-        // Substitua os espaços por '+' para formar a URL corretamente
         cep = cep.replace(" ", "+");
 
-        // Cria a URL do Google Maps para o CEP
         String urlMapa = "https://www.google.com/maps/search/?api=1&query=" + cep;
 
         return ResponseEntity.ok(urlMapa);
     }
 
     @PostMapping("/{idRestaurante}/cardapios")
-    public ResponseEntity<Cardapio> adicionarCardapio(@PathVariable Integer idRestaurante, @Valid @RequestBody CardapioCreateRequestDto cardapioDto) throws Exception {
+    public ResponseEntity<Cardapio> criarCardapio(@PathVariable Integer idRestaurante, @Valid @RequestBody CardapioCreateRequestDto cardapioDto) throws Exception {
         Cardapio cardapio = restauranteService.adicionarCardapio(idRestaurante, cardapioDto);
         return ResponseEntity.ok(cardapio);
     }
@@ -120,6 +121,14 @@ public class RestauranteController {
         restauranteService.removerCardapio(idRestaurante, idCardapio);
         return ResponseEntity.noContent().build();
     }
+
+    @GetMapping("/{id}/comentarios")
+    public ResponseEntity<List<Comentario>> obterComentariosDoRestaurante(@PathVariable Integer id) throws Exception {
+        Restaurante restaurante = restauranteService.restaurantePorId(id);
+        List<Comentario> comentarios = comentarioRepository.findByRestauranteId(id);
+        return ResponseEntity.ok(comentarios);
+    }
 }
+
 
 

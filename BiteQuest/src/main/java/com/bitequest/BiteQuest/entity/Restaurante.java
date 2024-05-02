@@ -44,14 +44,11 @@ public class Restaurante implements Observer {
     @NotBlank
     private String tipo;
 
-    @NotBlank
-    private String comentario;
-
     @ElementCollection
     private Map<String, String> horariosDeFuncionamento;
 
 
-    public Restaurante(String nome, String cnpj, String cep, String endereco, String numero, String complemento, String descricao, String tipo, String comentario, Map<String, String> horariosDeFuncionamento) {
+    public Restaurante(String nome, String cnpj, String cep, String endereco, String numero, String complemento, String descricao, String tipo, Map<String, String> horariosDeFuncionamento) {
         this.nome = nome;
         this.cnpj = cnpj;
         this.cep = cep;
@@ -60,11 +57,10 @@ public class Restaurante implements Observer {
         this.complemento = complemento;
         this.descricao = descricao;
         this.tipo = tipo;
-        this.comentario = comentario;
         this.horariosDeFuncionamento = horariosDeFuncionamento;
     }
 
-    public Restaurante(Integer id, String nome, String cnpj, String cep, String endereco, String numero, String complemento, String descricao, String tipo, String comentario, Map<String, String> horariosDeFuncionamento) {
+    public Restaurante(Integer id, String nome, String cnpj, String cep, String endereco, String numero, String complemento, String descricao, String tipo, Map<String, String> horariosDeFuncionamento) {
         this.id = id;
         this.nome = nome;
         this.cnpj = cnpj;
@@ -74,11 +70,10 @@ public class Restaurante implements Observer {
         this.complemento = complemento;
         this.descricao = descricao;
         this.tipo = tipo;
-        this.comentario = comentario;
         this.horariosDeFuncionamento = horariosDeFuncionamento;
     }
 
-    public Restaurante(String nome, String cnpj, String cep, String endereco, String numero, String complemento, String descricao, String tipo, String comentario, Map<String, String> horariosDeFuncionamento, Usuario usuario) {
+    public Restaurante(String nome, String cnpj, String cep, String endereco, String numero, String complemento, String descricao, String tipo, Map<String, String> horariosDeFuncionamento, Usuario usuario) {
         this.nome = nome;
         this.cnpj = cnpj;
         this.cep = cep;
@@ -87,10 +82,8 @@ public class Restaurante implements Observer {
         this.complemento = complemento;
         this.descricao = descricao;
         this.tipo = tipo;
-        this.comentario = comentario;
         this.horariosDeFuncionamento = horariosDeFuncionamento;
         this.usuario = usuario;
-        // ... inicialização de outros campos ...
     }
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)

@@ -2,11 +2,14 @@ package com.bitequest.BiteQuest.service;
 
 import com.bitequest.BiteQuest.dto.UsuarioLoginDto;
 import com.bitequest.BiteQuest.dto.UsuarioTokenDto;
+import com.bitequest.BiteQuest.entity.Comentario;
 import com.bitequest.BiteQuest.entity.Restaurante;
 import com.bitequest.BiteQuest.entity.Usuario;
 import com.bitequest.BiteQuest.entity.exception.UsuarioNaoEncontradoException;
 import com.bitequest.BiteQuest.jwt.GerenciadorTokenJwt;
+import com.bitequest.BiteQuest.repository.ComentarioRepository;
 import com.bitequest.BiteQuest.repository.UsuarioRepository;
+import com.bitequest.BiteQuest.usuario.ComentarioCreateRequestDto;
 import com.bitequest.BiteQuest.usuario.UsuarioCreateRequestDto;
 import com.bitequest.BiteQuest.usuario.UsuarioSimpleResponse;
 import com.bitequest.BiteQuest.usuario.mapper.UsuarioMapper;
@@ -38,6 +41,10 @@ public class UsuarioService {
     private GerenciadorTokenJwt gerenciadorTokenJwt;
     @Autowired
     private AuthenticationManager authenticationManager;
+    @Autowired
+    private RestauranteService restauranteService;
+    @Autowired
+    private ComentarioRepository comentarioRepository;
     @Autowired
     private UsuarioMapper usuarioMapper;
     @Autowired
@@ -123,6 +130,23 @@ public class UsuarioService {
         SecurityContextHolder.getContext().setAuthentication(authentication);
         final String token = gerenciadorTokenJwt.generateToken(authentication);
         return UsuarioMapper.of(usuarioAutenticado, token);
+    }
+
+    @Transactional
+    public Comentario adicionarComentario(Long idUsuario, Integer idRestaurante, ComentarioCreateRequestDto comentarioDto){
+        // Busca o usuário pelo ID
+        Usuario usuario = usuarioPorId(idUsuario);
+
+        // Busca o restaurante pelo ID
+        Restaurante restaurante = restauranteService.restaurantePorId(idRestaurante);
+
+        // Cria um novo comentário
+        Comentario novoComentario = new Comentario(usuario, restaurante, comentarioDto.getTexto());
+
+        // Salva o comentário no banco de dados
+        comentarioRepository.save(novoComentario);
+
+        return novoComentario;
     }
 }
 

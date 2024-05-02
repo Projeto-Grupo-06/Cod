@@ -31,8 +31,7 @@ public class RestauranteCreateRequestDto {
     private String complemento;
     private String descricao;
     private String tipo;
-    private String comentario; // Adicionado
-    private Map<String, String> horariosDeFuncionamento; // Adicionado
+    private Map<String, String> horariosDeFuncionamento;
 
     private List<CardapioCreateRequestDto> cardapios;
 

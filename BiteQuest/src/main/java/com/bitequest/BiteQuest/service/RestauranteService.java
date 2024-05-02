@@ -35,9 +35,8 @@ public class RestauranteService {
                 r.getComplemento(),
                 r.getDescricao(),
                 r.getTipo(),
-                r.getComentario(), // Adicionado
-                r.getHorariosDeFuncionamento(), // Adicionado
-                usuario // Adicionado
+                r.getHorariosDeFuncionamento(),
+                usuario
         );
         return restauranteRepository.save(novoRestaurante);
     }
@@ -63,8 +62,7 @@ public class RestauranteService {
         restaurante.setComplemento(r.getComplemento());
         restaurante.setDescricao(r.getDescricao());
         restaurante.setTipo(r.getTipo());
-        restaurante.setComentario(r.getComentario()); // Adicionado
-        restaurante.setHorariosDeFuncionamento(r.getHorariosDeFuncionamento()); // Adicionado
+        restaurante.setHorariosDeFuncionamento(r.getHorariosDeFuncionamento());
         return restauranteRepository.save(restaurante);
     }
 

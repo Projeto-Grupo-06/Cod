@@ -3,11 +3,14 @@ package com.bitequest.BiteQuest.controller;
 import com.bitequest.BiteQuest.controller.Erro.ErroResponse;
 import com.bitequest.BiteQuest.dto.UsuarioLoginDto;
 import com.bitequest.BiteQuest.dto.UsuarioTokenDto;
+import com.bitequest.BiteQuest.entity.Comentario;
 import com.bitequest.BiteQuest.entity.Usuario;
 import com.bitequest.BiteQuest.entity.exception.UsuarioNaoEncontradoException;
 import com.bitequest.BiteQuest.service.UsuarioService;
+import com.bitequest.BiteQuest.usuario.ComentarioCreateRequestDto;
 import com.bitequest.BiteQuest.usuario.UsuarioCreateRequestDto;
 import com.bitequest.BiteQuest.usuario.UsuarioSimpleResponse;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -97,5 +100,11 @@ public class UsuarioController {
         synchronized (historicoAcoes) {
             return ResponseEntity.ok(historicoAcoes);
         }
+    }
+
+    @PostMapping("/{idUsuario}/restaurantes/{idRestaurante}/comentarios")
+    public ResponseEntity<Comentario> adicionarComentario(@PathVariable Long idUsuario, @PathVariable Integer idRestaurante, @Valid @RequestBody ComentarioCreateRequestDto comentarioDto) throws Exception {
+        Comentario comentario = usuarioService.adicionarComentario(idUsuario, idRestaurante, comentarioDto);
+        return ResponseEntity.ok(comentario);
     }
 }

@@ -25,12 +25,11 @@ public class RestauranteMapper {
         restaurante.setCnpj(requestDto.getCnpj());
         restaurante.setCep(requestDto.getCep());
         restaurante.setEndereco(requestDto.getEndereco());
-        restaurante.setNumero(String.valueOf(requestDto.getNumero())); // Ajustado para String
+        restaurante.setNumero(String.valueOf(requestDto.getNumero()));
         restaurante.setComplemento(requestDto.getComplemento());
-        restaurante.setDescricao(requestDto.getDescricao()); // Adicionado
-        restaurante.setTipo(requestDto.getTipo()); // Adicionado
-        restaurante.setComentario(requestDto.getComentario()); // Adicionado
-        restaurante.setHorariosDeFuncionamento(requestDto.getHorariosDeFuncionamento()); // Adicionado
+        restaurante.setDescricao(requestDto.getDescricao());
+        restaurante.setTipo(requestDto.getTipo());
+        restaurante.setHorariosDeFuncionamento(requestDto.getHorariosDeFuncionamento());
         if(requestDto.getCardapios() != null) {
             for(CardapioCreateRequestDto cardapioDto : requestDto.getCardapios()) {
                 Cardapio cardapio = CardapioMapper.toEntity(cardapioDto);
@@ -53,10 +52,9 @@ public class RestauranteMapper {
         responseDto.setEndereco(entity.getEndereco());
         responseDto.setNumero(entity.getNumero());
         responseDto.setComplemento(entity.getComplemento());
-        responseDto.setDescricao(entity.getDescricao()); // Adicionado
-        responseDto.setTipo(entity.getTipo()); // Adicionado
-        responseDto.setComentario(entity.getComentario()); // Adicionado
-        responseDto.setHorariosDeFuncionamento(entity.getHorariosDeFuncionamento()); // Adicionado
+        responseDto.setDescricao(entity.getDescricao());
+        responseDto.setTipo(entity.getTipo());
+        responseDto.setHorariosDeFuncionamento(entity.getHorariosDeFuncionamento());
         if(entity.getCardapios() != null) {
             List<CardapioResponseDto> cardapioDtos = new ArrayList<>();
             for(Cardapio cardapio : entity.getCardapios()) {
@@ -80,9 +78,7 @@ public class RestauranteMapper {
         simpleResponse.setEndereco(entity.getEndereco());
         simpleResponse.setNumero(entity.getNumero());
         simpleResponse.setComplemento(entity.getComplemento());
-        // Os campos descricao e tipo não são incluídos na resposta simples
-        simpleResponse.setComentario(entity.getComentario()); // Adicionado
-        simpleResponse.setHorariosDeFuncionamento(entity.getHorariosDeFuncionamento()); // Adicionado
+        simpleResponse.setHorariosDeFuncionamento(entity.getHorariosDeFuncionamento());
 
         return simpleResponse;
     }

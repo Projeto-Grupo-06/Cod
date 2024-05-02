@@ -31,8 +31,7 @@ public class RestauranteSimpleResponse {
 
     private String tipo;
 
-    private String comentario; // Adicionado
-    private Map<String, String> horariosDeFuncionamento; // Adicionado
+    private Map<String, String> horariosDeFuncionamento;
 }
 
 

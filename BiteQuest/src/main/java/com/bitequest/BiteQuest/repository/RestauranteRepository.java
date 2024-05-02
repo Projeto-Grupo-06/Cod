@@ -19,8 +19,8 @@ public interface RestauranteRepository extends JpaRepository<Restaurante, Intege
 
     @Modifying
     @Transactional
-    @Query("UPDATE Restaurante r SET r.nome = :nome, r.cnpj = :cnpj, r.cep = :cep, r.endereco = :endereco, r.numero = :numero, r.complemento = :complemento, r.comentario = :comentario, r.horariosDeFuncionamento = :horariosDeFuncionamento WHERE r.id = :id")
-    void atualizarRestaurante(Integer id, String nome, String cnpj, String cep, String endereco, Integer numero, String complemento, String comentario, Map<String, String> horariosDeFuncionamento);
+    @Query("UPDATE Restaurante r SET r.nome = :nome, r.cnpj = :cnpj, r.cep = :cep, r.endereco = :endereco, r.numero = :numero, r.complemento = :complemento, r.horariosDeFuncionamento = :horariosDeFuncionamento WHERE r.id = :id")
+    void atualizarRestaurante(Integer id, String nome, String cnpj, String cep, String endereco, Integer numero, String complemento, Map<String, String> horariosDeFuncionamento);
 
     @Modifying
     @Transactional
