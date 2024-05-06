@@ -5,7 +5,7 @@ INSERT INTO usuario (nome, sobrenome, cpf, email, data_nascimento, senha) VALUES
 
 -- Inserir restaurantes
 INSERT INTO restaurante (id, nome, cnpj, cep, endereco, numero, complemento, descricao, tipo, usuario_id) VALUES
-(1, 'Boca Torta', '12345678901234', '12345678', 'R. Membeca', '64', 'casa na arvore', 'portão branco', 'residencia', 1);
+(1, 'Kome Moema', '12345678901234', '12345678', 'R. Membeca', '64', 'casa na arvore', 'portão branco', 'residencia', 1);
 
 -- Inserir Cardapio no restaurante 'Boca Torta'
 INSERT INTO cardapio (imagem, restaurante_id) VALUES ('imagem_do_cardapio.jpg', 1);
