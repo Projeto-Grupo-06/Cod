@@ -60,7 +60,7 @@ public class UsuarioController {
     }
 
     @PostMapping
-    public ResponseEntity<Usuario> adicionarUsuario(@RequestBody UsuarioCreateRequestDto u) throws Exception {
+    public ResponseEntity<Usuario> adicionarUsuario(@RequestBody @Valid UsuarioCreateRequestDto u) throws Exception {
         Usuario usuario = usuarioService.adicionar(u);
 
         // Adiciona a ação ao histórico

@@ -9,6 +9,8 @@ import org.hibernate.validator.constraints.br.CPF;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Data
 public class UsuarioCreateRequestDto {
@@ -30,5 +32,15 @@ public class UsuarioCreateRequestDto {
 
     @NotBlank(message = "A senha é obrigatória")
     private String senha;
+
+    public void setSenha(String senha) {
+        Pattern pattern = Pattern.compile("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}$");
+        Matcher matcher = pattern.matcher(senha);
+        if (matcher.matches()) {
+            this.senha = senha;
+        } else {
+            throw new IllegalArgumentException("A senha deve conter no mínimo 8 caracteres, 1 caractere especial, 1 caractere numérico e 1 caractere maiúsculo.");
+        }
+    }
 }
 

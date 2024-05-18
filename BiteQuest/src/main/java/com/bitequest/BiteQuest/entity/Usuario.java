@@ -2,6 +2,7 @@ package com.bitequest.BiteQuest.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -28,20 +29,12 @@ public class Usuario {
     private String cpf;
 
     @Email
+    @NotBlank(message = "O email é obrigatório")
     private String email;
 
     private LocalDate dataNascimento;
+    @NotBlank(message = "A senha é obrigatória")
     private String senha;
-
-    public void setSenha(String senha) {
-        Pattern pattern = Pattern.compile("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}$");
-        Matcher matcher = pattern.matcher(senha);
-        if (matcher.matches()) {
-            this.senha = senha;
-        } else {
-            throw new IllegalArgumentException("A senha deve conter no mínimo 8 caracteres, 1 caractere especial, 1 caractere numérico e 1 caractere maiúsculo.");
-        }
-    }
 
     public Usuario() {
     }
