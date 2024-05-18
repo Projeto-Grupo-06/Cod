@@ -18,7 +18,6 @@ public class UsuarioCreateRequestDto {
     @NotBlank(message = "O nome é obrigatório")
     private String nome;
 
-    @NotBlank(message = "O sobrenome é obrigatório")
     private String sobrenome;
 
     @PastOrPresent(message = "A data de nascimento deve estar no passado ou ser a data atual")
