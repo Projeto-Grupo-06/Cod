@@ -79,11 +79,10 @@
 			<version>2.2.0</version>
 		</dependency>
 
-		<!-- https://mvnrepository.com/artifact/org.postgresql/postgresql -->
 		<dependency>
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>
-			<version>42.7.3</version>
+			<scope>runtime</scope>
 		</dependency>
 
 		<dependency>
